@@ -1,0 +1,20 @@
+_wdt:
+    resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
+    prefix:   /_wdt
+
+_profiler:
+    resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
+    prefix:   /_profiler
+
+DoctrineWorkshopBundle:
+    resource: "@DoctrineWorkshopBundle/Controller/WorkshopController.php"
+    type: auto
+
+homepage:
+    pattern: "/"
+    defaults: { _controller: "DoctrineWorkshopBundle:Default:index" }
+
+migrate:
+    pattern: "/migrate"
+    defaults: { _controller: "DoctrineWorkshopBundle:Default:migrate" }
+    requirements: { _method: 'POST' }

@@ -1,0 +1,53 @@
+{% extends "DoctrineWorkshopBundle::layout.html.twig" %}
+
+{% block content %}
+    <div style="max-width: 900px;">
+        <div style="width:60%;float:left;">
+            <h2>Documentation</h2>
+
+            <p>This is a Symfony2 application configured for debugging purposes. You will
+                see the <a href="{{ path('_profiler_redirect') }}">Web Toolbar and Links to the Symfony Profiler</a>
+                to help you understand
+                Doctrine internals.
+            </p>
+
+            <h3>Add your own Actions</h3>
+
+            <p>To add your own actions, navigate to:</p>
+
+            <pre><code>src/Doctrine/WorkshopBundle/Controller/WorkshopController.php</code></pre>
+
+            <p>and add methods named <code>nameAction</code>. Every action method in the Workshop  controller is automatically
+            detected and listed on left side.</p>
+
+            <h3>Change Database Driver</h3>
+
+            <p>SQLite is used by default, but has some limitations (no ALTER TABLE, no foreign keys).
+            To switch to your preferred database system open the file:</p>
+
+            <pre><code>app/config/config.yml</code></pre>
+
+            <p>And uncomment the MySQL or PostgreSQL related lines with your credentials.</p>
+
+            <h3>Migrate the Database</h3>
+
+            <p>You can use the console command to migrate the database:</p>
+
+            <pre><code>$&gt; php app/console doctrine:schema:update --force</code></pre>
+
+            <p>Or push the button below to execute this operation:</p>
+
+            <form method="post" action="{{ path('migrate') }}">
+                <input type="submit" value="Migrate Database" />
+            </form>
+        </div>
+        <div style="width:40%;float:left;">
+            <h2>Your Actions</h2>
+            <ul>
+            {% for route in routeNames %}
+                <li><a href="{{ path(route) }}">{{ route }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

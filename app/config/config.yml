@@ -1,0 +1,70 @@
+# Doctrine Configuration
+doctrine:
+    dbal:
+        ## SQLite
+        driver:   "pdo_sqlite"
+        path:     "%kernel.root_dir%/workshop.db"
+
+        ## MySQL
+        #driver:   "pdo_mysql"
+        #host:     "localhost"
+        #port:     "3306"
+        #dbname:   "dcworkshop"
+        #user:     "root"
+        #password: ""
+        #charset:  UTF8
+
+        ## PostgreSQL
+        #driver:   "pdo_pgsql"
+        #host:     "localhost"
+        #port:     "5432"
+        #dbname:   "dcworkshop"
+        #user:     "postgres"
+        #password: ""
+        #charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+
+# Framework
+framework:
+    secret:          "pufahShae8Aetheev2ie"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: "%kernel.debug%"
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ['twig'] }
+    default_locale:  "en"
+    trust_proxy_headers: false
+    session:         ~
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    handlers:
+        main:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        firephp:
+            type:  firephp
+            level: info
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+services:
+    doctrine_workshop.auto_route_loader:
+        class: Doctrine\WorkshopBundle\Routing\AutoRouteLoader
+        arguments:
+            - "@file_locator"
+        tags:
+            - { name: "routing.loader"}

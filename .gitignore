@@ -1,0 +1,10 @@
+vendor
+app/cache
+app/logs
+web/bundles
+app/workshop.db
+build
+composer.phar
+.buildpath
+.project
+.settings
