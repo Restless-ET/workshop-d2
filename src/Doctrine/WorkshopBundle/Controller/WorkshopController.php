@@ -23,10 +23,11 @@ class WorkshopController extends Controller
     $car->setOffer('Honda Civic');
     $car->setPrice(20000);
 
-    $entityManager->persist($car);
-    $entityManager->flush();
+    $entityManager->persist($car); // ID available from here on PostgreSQL
+    $entityManager->flush(); // ID available from here on MySQL
 
-    return new Response('Created!');
+    // Added </body> to show the debug toolbar
+    return new Response('Created: '.$car->getId().'</body>');
   }
 
   // GET /workshop/show?id=[id]
