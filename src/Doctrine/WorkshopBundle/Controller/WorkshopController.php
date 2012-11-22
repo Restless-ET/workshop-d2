@@ -40,6 +40,47 @@ class WorkshopController extends Controller
     $vehicle = $entityManager->find('Doctrine\WorkshopBundle\Entity\Vehicle', $id);
 
     // Added </body> to show the web debug toolbar
-    return new Response($vehicle->getOffer().' for '.$vehicle->getPrice()."</body>\n");
+    return new Response(
+      $vehicle->getOffer().' for '.$vehicle->getPrice().' ; '.$vehicle->getAge()." years old!</body>\n"
+    );
+  }
+
+  public function identityMapAction()
+  {
+    $em = $this->get('doctrine.orm.default_entity_manager');
+
+    $class = 'Doctrine\WorkshopBundle\Entity\Vehicle';
+    $objA = $em->find($class, 1);
+    $em->clear(); // After this the mapper no longer as internal references to the first object
+    //$em->detach($objA); // For clearing specific objects
+    $objB = $em->find($class, 1);
+
+    $html = ($objA === $objB) ? 'Same' : 'Not same';
+    return new Response(
+      $html.'</body>'
+    );
+  }
+
+  public function updateAction(Request $request)
+  {
+    $id = $request->query->get('id');
+    $em = $this->get('doctrine.orm.default_entity_manager');
+
+    $class = 'Doctrine\WorkshopBundle\Entity\Vehicle';
+    $vehicle = $em->find($class, $id);
+    $vehicle->setPrice(2 * $vehicle->getPrice());
+
+    //$em->persist($vehicle); // No need for this on updates since doctrine is already aware of the object existance
+    $em->flush();
+
+    return new Response(
+        $vehicle->getOffer().' for '.$vehicle->getPrice().' ; '.$vehicle->getAge()." years old!</body>\n"
+    );
+
+    /*
+    return $this->redirect($this->generateUrl('DoctrineWorkshopBundle::show', array(
+      'id' => $vehicle->getId()
+    )));
+    */
   }
 }
