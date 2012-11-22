@@ -83,4 +83,18 @@ class WorkshopController extends Controller
     )));
     */
   }
+
+  public function deleteAction(Request $request)
+  {
+    $id = $request->query->get('id');
+    $em = $this->get('doctrine.orm.default_entity_manager');
+
+    $vehicle = $em->find('Doctrine\WorkshopBundle\Entity\Vehicle', $id);
+
+    $em->remove($vehicle);
+    $em->flush();
+
+    // Added </body> to show the web debug toolbar
+    return new Response('</body>');
+  }
 }
