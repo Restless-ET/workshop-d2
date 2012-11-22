@@ -26,7 +26,7 @@ abstract class Vehicle
   /** @ORM\Column(type="datetime") **/
   protected $created_at;
 
-  /** @ORM\ManyToOne(targetEntity="Brand", inversedBy="vehicles")**/
+  /** @ORM\ManyToOne(targetEntity="Brand", fetch="EAGER", inversedBy="vehicles", cascade={"persist"}) **/
   protected $brand;
 
   public function __construct($age)

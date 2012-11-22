@@ -21,7 +21,7 @@ class Brand
   /** @ORM\Column(type="datetime") **/
   protected $created_at;
 
-  /** @ORM\OneToMany(targetEntity="Vehicle", mappedBy="brand") **/
+  /** @ORM\OneToMany(targetEntity="Vehicle", fetch="EXTRA_LAZY", mappedBy="brand") **/
   protected $vehicles;
 
   public function __construct($name)
@@ -44,6 +44,11 @@ class Brand
   public function setName($name)
   {
     $this->name = $name;
+  }
+
+  public function getVehicles()
+  {
+    return $this->vehicles;
   }
 
   public function addVehicle($v)
