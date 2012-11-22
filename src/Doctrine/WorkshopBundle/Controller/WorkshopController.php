@@ -18,6 +18,21 @@ class WorkshopController extends Controller
     return $this->render('DoctrineWorkshopBundle:Workshop:index.html.twig', array());
   }
 
+  public function createBrandAction(Request $request)
+  {
+    $carId = $request->query->get('carId');
+    $em = $this->get('doctrine.orm.default_entity_manager');
+
+    $brand = new Brand('Honda '.time());
+    $car = $em->find('Doctrine\WorkshopBundle\Entity\Car', $carId);
+    $brand->addVehicle($car);
+
+    $em->persist($brand);
+    $em->flush();
+
+    return new Response('</body>');
+  }
+
   public function createAction()
   {
     $em = $this->get('doctrine.orm.default_entity_manager');

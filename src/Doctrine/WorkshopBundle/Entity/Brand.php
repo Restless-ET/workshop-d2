@@ -45,4 +45,10 @@ class Brand
   {
     $this->name = $name;
   }
+
+  public function addVehicle($v)
+  {
+    $this->vehicles[] = $v;
+    $v->setBrand($this);
+  }
 }

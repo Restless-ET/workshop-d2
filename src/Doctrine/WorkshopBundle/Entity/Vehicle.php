@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  *  "truck": "Truck"
  * })
  */
-class Vehicle
+abstract class Vehicle
 {
   /** @ORM\Column(type="integer") @ORM\Id @ORM\GeneratedValue **/
   protected $id;
