@@ -8,10 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class WorkshopController extends Controller
 {
-    public function indexAction()
-    {
-        return $this->render('DoctrineWorkshopBundle:Workshop:index.html.twig', array());
-    }
+  public function indexAction()
+  {
+    return $this->render('DoctrineWorkshopBundle:Workshop:index.html.twig', array());
+  }
 }
-
-
