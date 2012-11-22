@@ -16,6 +16,8 @@ class Vehicle
   protected $offer;
   /** @ORM\Column(type="integer") **/
   protected $price;
+  /** @ORM\Column(type="integer") **/
+  protected $age;
 
   public function getId()
   {
@@ -40,5 +42,15 @@ class Vehicle
   public function setPrice($price)
   {
     $this->price = $price;
+  }
+
+  public function getAge()
+  {
+    return $this->age;
+  }
+
+  public function setAge($age)
+  {
+    $this->age = $age;
   }
 }
