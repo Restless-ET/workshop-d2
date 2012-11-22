@@ -15,9 +15,17 @@ class Vehicle
   /** @ORM\Column(type="string") **/
   protected $offer;
   /** @ORM\Column(type="integer") **/
-  protected $price;
+  protected $price = 3000;
   /** @ORM\Column(type="integer") **/
   protected $age;
+  /** @ORM\Column(type="datetime") **/
+  protected $created_at;
+
+  public function __construct($age)
+  {
+    $this->created_at = new \DateTime();
+    $this->age = $age;
+  }
 
   public function getId()
   {
@@ -49,8 +57,8 @@ class Vehicle
     return $this->age;
   }
 
-  public function setAge($age)
+  /*public function setAge($age)
   {
     $this->age = $age;
-  }
+  }*/
 }

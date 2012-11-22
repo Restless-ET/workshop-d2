@@ -19,10 +19,10 @@ class WorkshopController extends Controller
   {
     $entityManager = $this->get('doctrine.orm.default_entity_manager');
 
-    $car = new Vehicle();
+    $car = new Vehicle(4); // the car age
     $car->setOffer('Honda Civic');
     $car->setPrice(15000);
-    $car->setAge(3);
+    //$car->setAge(3);
 
     $entityManager->persist($car); // ID available from here on PostgreSQL
     $entityManager->flush(); // ID available from here on MySQL
