@@ -7,8 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table("vehicle")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorMap({
+ *  "car": "Car",
+ *  "truck": "Truck"
+ * })
  */
-class Vehicle
+abstract class Vehicle
 {
   /** @ORM\Column(type="integer") @ORM\Id @ORM\GeneratedValue **/
   protected $id;

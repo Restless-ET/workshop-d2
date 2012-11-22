@@ -2,7 +2,8 @@
 
 namespace Doctrine\WorkshopBundle\Controller;
 
-use Doctrine\WorkshopBundle\Entity\Vehicle;
+use Doctrine\WorkshopBundle\Entity\Car;
+use Doctrine\WorkshopBundle\Entity\Truck;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,12 +20,16 @@ class WorkshopController extends Controller
   {
     $entityManager = $this->get('doctrine.orm.default_entity_manager');
 
-    $car = new Vehicle(4); // the car age
-    $car->setOffer('Honda Civic');
-    $car->setPrice(15000);
-    //$car->setAge(3);
+    for ($i = 1; $i <= 100; $i++)
+    {
+      $car = new Car(4); // the car age
+      $car->setOffer('Honda Civic RC'.$i);
+      $car->setPrice(rand(1000, 10000) * ($i / 2));
+      //$car->setAge(3);
+      $car->setColor('black');
 
-    $entityManager->persist($car); // ID available from here on PostgreSQL
+      $entityManager->persist($car); // ID available from here on PostgreSQL
+    }
     $entityManager->flush(); // ID available from here on MySQL
 
     // Added </body> to show the web debug toolbar
@@ -89,7 +94,8 @@ class WorkshopController extends Controller
     $id = $request->query->get('id');
     $em = $this->get('doctrine.orm.default_entity_manager');
 
-    $vehicle = $em->find('Doctrine\WorkshopBundle\Entity\Vehicle', $id);
+    //$vehicle = $em->find('Doctrine\WorkshopBundle\Entity\Vehicle', $id);
+    $vehicle = $em->getReference('Doctrine\WorkshopBundle\Entity\Car', $id);
 
     $em->remove($vehicle);
     $em->flush();
