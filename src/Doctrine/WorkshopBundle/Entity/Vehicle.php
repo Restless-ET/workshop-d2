@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  *  "truck": "Truck"
  * })
  */
-abstract class Vehicle
+class Vehicle
 {
   /** @ORM\Column(type="integer") @ORM\Id @ORM\GeneratedValue **/
   protected $id;
@@ -25,6 +25,9 @@ abstract class Vehicle
   protected $age;
   /** @ORM\Column(type="datetime") **/
   protected $created_at;
+
+  /** @ORM\ManyToOne(targetEntity="Brand", inversedBy="vehicles")**/
+  protected $brand;
 
   public function __construct($age)
   {
@@ -66,4 +69,14 @@ abstract class Vehicle
   {
     $this->age = $age;
   }*/
+
+  public function getBrand()
+  {
+    return $this->brand;
+  }
+
+  public function setBrand($brand)
+  {
+    $this->brand = $brand;
+  }
 }

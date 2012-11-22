@@ -2,6 +2,8 @@
 
 namespace Doctrine\WorkshopBundle\Controller;
 
+use Doctrine\WorkshopBundle\Entity\Brand;
+
 use Doctrine\WorkshopBundle\Entity\Car;
 use Doctrine\WorkshopBundle\Entity\Truck;
 
@@ -18,7 +20,10 @@ class WorkshopController extends Controller
 
   public function createAction()
   {
-    $entityManager = $this->get('doctrine.orm.default_entity_manager');
+    $em = $this->get('doctrine.orm.default_entity_manager');
+
+    $brand = new Brand('Honda '.time());
+    $em->persist($brand);
 
     for ($i = 1; $i <= 100; $i++)
     {
@@ -27,10 +32,11 @@ class WorkshopController extends Controller
       $car->setPrice(rand(1000, 10000) * ($i / 2));
       //$car->setAge(3);
       $car->setColor('black');
+      $car->setBrand($brand);
 
-      $entityManager->persist($car); // ID available from here on PostgreSQL
+      $em->persist($car); // ID available from here on PostgreSQL
     }
-    $entityManager->flush(); // ID available from here on MySQL
+    $em->flush(); // ID available from here on MySQL
 
     // Added </body> to show the web debug toolbar
     return new Response('<a href="/show?id='.$car->getId().'">Created '.$car->getId().'</a></body>');
@@ -44,9 +50,13 @@ class WorkshopController extends Controller
 
     $vehicle = $entityManager->find('Doctrine\WorkshopBundle\Entity\Vehicle', $id);
 
+    $output = $vehicle->getOffer().' for '.$vehicle->getPrice();
+    $output .= '<br />Age: '.$vehicle->getAge()." years old!";
+    $output .= '<br />Brand: '.$vehicle->getBrand()->getName();
+
     // Added </body> to show the web debug toolbar
     return new Response(
-      $vehicle->getOffer().' for '.$vehicle->getPrice().' ; '.$vehicle->getAge()." years old!</body>\n"
+      $output."</body>\n"
     );
   }
 
