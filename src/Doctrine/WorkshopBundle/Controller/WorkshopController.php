@@ -33,18 +33,55 @@ class WorkshopController extends Controller
     return new Response('</body>');
   }
 
+  public function showBrandAction(Request $request)
+  {
+    $id = $request->query->get('id');
+    $em = $this->get('doctrine.orm.default_entity_manager');
+    $brand = $em->getReference('Doctrine\WorkshopBundle\Entity\Brand', $id);
+
+    // $vehicles instanceof \Doctrine\ORM\PersistentCollection
+    $vehicles = $brand->getVehicles();
+
+    echo count($brand->getVehicles()).'<br />';
+    $output = $brand->getName().'<br />Vehicles:<br />';
+    foreach ($vehicles as $v)
+    {
+      $output .= $v->getOffer().';<br />';
+    }
+
+    return new Response($output.'</body>');
+  }
+
+  public function searchAction(Request $request)
+  {
+    $em = $this->get('doctrine.orm.default_entity_manager');
+    $repo = $em->getRepository('Doctrine\WorkshopBundle\Entity\Vehicle');
+    //$vehicles = $repo->findBy($request->query->all(), array('price' => 'DESC'), 20, 0);
+    //$vehicles = $repo->findBy($request->query->all(), array('price' => 'DESC'), 20, 0);
+
+    $dql = "SELECT v FROM Doctrine\WorkshopBundle\Entity\Vehicle v ORDER BY v.price DESC";
+    $vehicles = $em->createQuery($dql)->setFirstResult(0)->setMaxResults(20)->getResult();
+
+    foreach ($vehicles as $vehicle)
+    {
+      echo $vehicle->getOffer().' for '.$vehicle->getPrice().'<br />';
+    }
+
+    return new Response('</body>');
+  }
+
   public function createAction()
   {
     $em = $this->get('doctrine.orm.default_entity_manager');
 
     $brand = new Brand('Honda '.time());
-    $em->persist($brand);
+    //$em->persist($brand); // Not needed due to the cascade behaviour on ManyToOne relation defined on Vehicle class
 
     for ($i = 1; $i <= 100; $i++)
     {
       $car = new Car(4); // the car age
       $car->setOffer('Honda Civic RC'.$i);
-      $car->setPrice(rand(1000, 10000) * ($i / 2));
+      $car->setPrice(rand(1000, 5000) * ($i / 2));
       //$car->setAge(3);
       $car->setColor('black');
       $car->setBrand($brand);
@@ -67,11 +104,14 @@ class WorkshopController extends Controller
 
     $output = $vehicle->getOffer().' for '.$vehicle->getPrice();
     $output .= '<br />Age: '.$vehicle->getAge()." years old!";
-    $output .= '<br />Brand: '.$vehicle->getBrand()->getName();
+
+    $brand = $vehicle->getBrand(); // get_class($brand)
+    // $brand instanceof \Doctrine\ORM\Proxy\Proxy
+    $output .= '<br />Brand: '.$brand->getName();
 
     // Added </body> to show the web debug toolbar
     return new Response(
-      $output."</body>\n"
+      $output.'</body>'
     );
   }
 
