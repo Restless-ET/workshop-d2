@@ -2,17 +2,17 @@
 doctrine:
     dbal:
         ## SQLite
-        driver:   "pdo_sqlite"
-        path:     "%kernel.root_dir%/workshop.db"
+        #driver:   "pdo_sqlite"
+        #path:     "%kernel.root_dir%/workshop.db"
 
         ## MySQL
-        #driver:   "pdo_mysql"
-        #host:     "localhost"
-        #port:     "3306"
-        #dbname:   "dcworkshop"
-        #user:     "root"
-        #password: ""
-        #charset:  UTF8
+        driver:   "pdo_mysql"
+        host:     "localhost"
+        port:     "3306"
+        dbname:   "dcworkshop"
+        user:     "arturws"
+        password: "dcws"
+        charset:  UTF8
 
         ## PostgreSQL
         #driver:   "pdo_pgsql"
