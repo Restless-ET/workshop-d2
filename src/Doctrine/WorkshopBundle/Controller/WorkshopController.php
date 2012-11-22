@@ -26,7 +26,7 @@ class WorkshopController extends Controller
     $entityManager->persist($car); // ID available from here on PostgreSQL
     $entityManager->flush(); // ID available from here on MySQL
 
-    // Added </body> to show the debug toolbar
+    // Added </body> to show the web debug toolbar
     return new Response('Created: '.$car->getId().'</body>');
   }
 
@@ -38,6 +38,7 @@ class WorkshopController extends Controller
 
     $vehicle = $entityManager->find('Doctrine\WorkshopBundle\Entity\Vehicle', $id);
 
-    return new Response($vehicle->getOffer().' for '.$vehicle->getPrice()."\n");
+    // Added </body> to show the web debug toolbar
+    return new Response($vehicle->getOffer().' for '.$vehicle->getPrice()."</body>\n");
   }
 }
